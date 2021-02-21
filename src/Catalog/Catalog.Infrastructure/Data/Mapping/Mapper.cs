@@ -13,7 +13,7 @@ namespace Catalog.Infrastructure.Data.Mapping
                 Category = product.Category,
                 Description = product.Description,
                 ImageFile = product.ImageFile,
-                Name = product.ImageFile,
+                Name = product.Name,
                 Price = product.Price,
                 Summary = product.Summary
             };
@@ -27,7 +27,7 @@ namespace Catalog.Infrastructure.Data.Mapping
                 Category = product.Category,
                 Description = product.Description,
                 ImageFile = product.ImageFile,
-                Name = product.ImageFile,
+                Name = product.Name,
                 Price = product.Price,
                 Summary = product.Summary
             };
