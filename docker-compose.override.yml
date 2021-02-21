@@ -1,16 +1,17 @@
 version: "3.9"
 
 services:
+  catalog.db:
+    ports:
+      - 27017:27017
+
   catalog.webapi:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=https://+:443;http://+:80
-      - ASPNETCORE_Kestrel__Certificates__Development__Password="crypticpassword"
-      - ASPNETCORE_Kestrel__Certificates__Default__Password="password"
-      - ASPNETCORE_Kestrel__Certificates__Default__Path=/https/aspnetapp.pfx
     ports:
-      - "80"
-      - "443"
+      - 5000:80
+      - 5001:443
     volumes:
       - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
       - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro
