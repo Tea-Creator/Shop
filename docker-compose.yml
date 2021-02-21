@@ -1,6 +1,9 @@
 version: '3.4'
 
 services:
+  catalog.db:
+    image: ${DOCKER_REGISTRY-}mongo
+
   catalog.webapi:
     image: ${DOCKER_REGISTRY-}catalogwebapi
     build:
