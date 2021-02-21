@@ -9,3 +9,6 @@ services:
     build:
       context: .
       dockerfile: src/Catalog/Catalog.WebApi/Dockerfile
+
+    depends_on:
+      - catalog.db

@@ -1,11 +1,23 @@
 version: "3.9"
 
+volumes:
+  catalog.db.volume:
+
 services:
   catalog.db:
+    container_name: catalog.db
+
+    restart: always
+
+    volumes:
+    - catalog.db.volume:/data/db
+
     ports:
       - 27017:27017
 
   catalog.webapi:
+    container_name: catalog.webapi
+
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=https://+:443;http://+:80
