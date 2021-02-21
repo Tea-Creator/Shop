@@ -13,7 +13,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Catalog.WebApi", "src\Catal
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Catalog.Infrastructure", "src\Catalog\Catalog.Infrastructure\Catalog.Infrastructure.csproj", "{A4ACCE32-123E-40DD-83CD-52ED315B74E4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Catalog.Application", "src\Catalog\Catalog.Application\Catalog.Application.csproj", "{ABDD1C40-D7F9-4BA4-8895-513BF834C24E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Catalog.Application", "src\Catalog\Catalog.Application\Catalog.Application.csproj", "{ABDD1C40-D7F9-4BA4-8895-513BF834C24E}"
+EndProject
+Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{5E5852AA-F1C8-44C7-A8DC-CF55DA07559A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -73,6 +75,18 @@ Global
 		{ABDD1C40-D7F9-4BA4-8895-513BF834C24E}.Release|x64.Build.0 = Release|Any CPU
 		{ABDD1C40-D7F9-4BA4-8895-513BF834C24E}.Release|x86.ActiveCfg = Release|Any CPU
 		{ABDD1C40-D7F9-4BA4-8895-513BF834C24E}.Release|x86.Build.0 = Release|Any CPU
+		{5E5852AA-F1C8-44C7-A8DC-CF55DA07559A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5E5852AA-F1C8-44C7-A8DC-CF55DA07559A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5E5852AA-F1C8-44C7-A8DC-CF55DA07559A}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{5E5852AA-F1C8-44C7-A8DC-CF55DA07559A}.Debug|x64.Build.0 = Debug|Any CPU
+		{5E5852AA-F1C8-44C7-A8DC-CF55DA07559A}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{5E5852AA-F1C8-44C7-A8DC-CF55DA07559A}.Debug|x86.Build.0 = Debug|Any CPU
+		{5E5852AA-F1C8-44C7-A8DC-CF55DA07559A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5E5852AA-F1C8-44C7-A8DC-CF55DA07559A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5E5852AA-F1C8-44C7-A8DC-CF55DA07559A}.Release|x64.ActiveCfg = Release|Any CPU
+		{5E5852AA-F1C8-44C7-A8DC-CF55DA07559A}.Release|x64.Build.0 = Release|Any CPU
+		{5E5852AA-F1C8-44C7-A8DC-CF55DA07559A}.Release|x86.ActiveCfg = Release|Any CPU
+		{5E5852AA-F1C8-44C7-A8DC-CF55DA07559A}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
