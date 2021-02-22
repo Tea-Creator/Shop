@@ -1,6 +1,12 @@
 version: '3.4'
 
 services:
+  event.bus:
+    image: rabbitmq
+
+  basket.db:
+    image: redis
+
   catalog.db:
     image: ${DOCKER_REGISTRY-}mongo
 

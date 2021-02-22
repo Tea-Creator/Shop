@@ -5,6 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\Shared\EventBus\EventBus.csproj" />
     <ProjectReference Include="..\Basket.Domain\Basket.Domain.csproj" />
   </ItemGroup>
 

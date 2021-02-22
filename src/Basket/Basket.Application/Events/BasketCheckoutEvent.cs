@@ -1,6 +1,10 @@
-﻿namespace Basket.Domain.Models
+﻿using Basket.Domain.Models;
+
+using EventBus;
+
+namespace Basket.Application.Events
 {
-    public class BasketCheckout
+    public class BasketCheckoutEvent : IntegrationEvent
     {
         public string Username { get; set; }
         public BasketCart Cart { get; set; }

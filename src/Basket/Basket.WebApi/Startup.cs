@@ -2,6 +2,12 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+
+using Basket.Application.Repositories;
+using Basket.Infrastructure.Data;
+
+using EventBus;
+
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -11,6 +17,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
+
+using StackExchange.Redis;
 
 namespace Basket.WebApi
 {
@@ -28,6 +36,22 @@ namespace Basket.WebApi
         {
 
             services.AddControllers();
+
+            services.AddSingleton((sp) =>
+            {
+                return ConnectionMultiplexer
+                    .Connect(ConfigurationOptions.Parse(Configuration.GetConnectionString("Redis"), true));
+            });
+
+            services.AddTransient<RedisConnection>();
+            services.AddTransient<IBasketRepository, RedisBasketRepository>();
+
+            services.Configure<RabbitMqConnectionOptions>(Configuration.GetSection("Rabbit"));
+
+            services.AddSingleton<IEventBusSubscriptionManager, InMemoryEventBusSubscriptionManager>();
+            services.AddSingleton<RabbitMqConnection>();
+            services.AddSingleton<IEventBus, RabbitMqEventBus>();
+
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Basket.WebApi", Version = "v1" });

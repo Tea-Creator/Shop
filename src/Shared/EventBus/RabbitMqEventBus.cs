@@ -17,8 +17,6 @@ namespace EventBus
         private readonly IEventBusSubscriptionManager _subscriptionManager;
         private readonly IServiceScopeFactory _serviceScopeFactory;
 
-
-
         public RabbitMqEventBus(
             RabbitMqConnection connection,
             IEventBusSubscriptionManager subscriptionManager,

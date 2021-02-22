@@ -1,9 +1,10 @@
-﻿namespace Basket.Domain.Models
+﻿using Basket.Domain.Models;
+
+namespace Basket.WebApi.Dtos
 {
-    public class BasketCheckout
+    public class BasketCheckoutDto
     {
         public string Username { get; set; }
-        public BasketCart Cart { get; set; }
         public Payment Payment { get; set; }
         public BillingAddress BillingAddress { get; set; }
     }
