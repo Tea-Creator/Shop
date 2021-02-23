@@ -42,13 +42,13 @@ namespace Basket.WebApi.Controllers
             return Ok(await _basketService.Delete(username));
         }
 
-        [HttpPost]
+        [HttpPost("checkout")]
         [ProducesResponseType(typeof(void), (int)HttpStatusCode.Accepted)]
         public async Task<IActionResult> Checkout([FromBody] BasketCheckoutDto checkoutDto)
         {
             await _basketService.Checkout(
-                checkoutDto.Username, 
-                checkoutDto.Payment, 
+                checkoutDto.Username,
+                checkoutDto.Payment,
                 checkoutDto.BillingAddress);
 
             return Accepted();

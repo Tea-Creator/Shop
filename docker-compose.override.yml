@@ -2,8 +2,83 @@ version: "3.9"
 
 volumes:
   catalog.db.volume:
+  ordering.db.volume:
+  ordering.db.lib.volume:
+  ordering.db.log.volume:
 
 services:
+  event.bus:
+    hostname: event.bus
+
+    restart: always
+
+    container_name: event.bus
+
+    volumes:
+      - ordering.db.volume:/etc/rabbitmq
+      - ordering.db.lib.volume:/var/lib/rabbitmq 
+      - ordering.db.log.volume:/var/log/rabbitmq
+
+    ports:
+      - 5672:5672 
+      - 15672:15672
+
+  ordering.db:
+    container_name: ordering.db
+
+    restart: always
+
+    environment:
+      - POSTGRES_PASSWORD=postgres
+
+    ports:
+      - 5432:5432 
+
+  ordering.webapi:
+    container_name: ordering.webapi
+
+    depends_on:
+      - event.bus
+
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=https://+:443;http://+:80
+
+    ports:
+      - 5004:80
+      - 5005:443
+
+    volumes:
+      - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
+      - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro
+      - ${USERPROFILE}/.aspnet/https:/https/
+
+  basket.db:
+    container_name: basket.db
+
+    restart: always
+
+    depends_on:
+      - event.bus
+
+    ports:
+      - 6379:6379 
+  basket.webapi:
+    container_name: basket.webapi
+
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=https://+:443;http://+:80
+
+    ports:
+      - 5002:80
+      - 5003:443
+
+    volumes:
+      - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
+      - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro
+      - ${USERPROFILE}/.aspnet/https:/https/
+
   catalog.db:
     container_name: catalog.db
 

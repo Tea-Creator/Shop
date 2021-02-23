@@ -15,8 +15,6 @@ namespace Basket.Infrastructure.Data
             _db = db;
         }
 
-
-
         public async Task<BasketCart> Get(string username)
         {
             var basket = await _db.Redis.StringGetAsync(username);
@@ -26,7 +24,7 @@ namespace Basket.Infrastructure.Data
                 return null;
             }
 
-            return JsonSerializer.Deserialize<BasketCart>(username);
+            return JsonSerializer.Deserialize<BasketCart>(basket.ToString());
         }
 
         public async Task<BasketCart> Update(BasketCart cart)

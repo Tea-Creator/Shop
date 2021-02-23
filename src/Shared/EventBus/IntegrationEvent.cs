@@ -18,7 +18,10 @@ namespace EventBus
             CreatedDate = createdDate;
         }
 
+        [JsonPropertyName("id")]
         public Guid Id { get; }
+
+        [JsonPropertyName("created_date")]
         public DateTime CreatedDate { get; }
     }
 }

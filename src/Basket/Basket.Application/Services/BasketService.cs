@@ -50,7 +50,7 @@ namespace Basket.Application.Services
                 Username = username,
                 Payment = payment,
                 BillingAddress = billingAddress,
-                Cart = cart
+                TotalPrice = cart.TotalPrice
             };
 
             _eventBus.Publish(checkoutEvent);

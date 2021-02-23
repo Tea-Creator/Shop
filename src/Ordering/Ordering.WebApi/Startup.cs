@@ -1,24 +1,26 @@
-using Basket.Application.Repositories;
-using Basket.Application.Services;
-using Basket.Infrastructure.Data;
-
 using EventBus;
 
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 
+using Ordering.Application.IntegrationEvents.EventHandlers;
+using Ordering.Application.IntegrationEvents.Events;
+using Ordering.Application.Repositories;
+using Ordering.Application.Services;
+using Ordering.Infrastructure.Data;
+using Ordering.Infrastructure.Data.Repositories;
+
 using RabbitMQ.Client;
 
 using RabbitMQEventBus;
 
-using StackExchange.Redis;
-
-namespace Basket.WebApi
+namespace Ordering.WebApi
 {
     public class Startup
     {
@@ -32,18 +34,16 @@ namespace Basket.WebApi
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-
             services.AddControllers();
 
-            services.AddSingleton((sp) =>
+            services.AddDbContext<OrderContext>(opts =>
             {
-                return ConnectionMultiplexer
-                    .Connect(ConfigurationOptions.Parse(Configuration.GetConnectionString("Redis"), true));
+                opts.UseNpgsql(Configuration.GetConnectionString("Default"));
             });
 
-            services.AddTransient<RedisConnection>();
-            services.AddTransient<IBasketRepository, RedisBasketRepository>();
-            services.AddScoped<BasketService>();
+            services.AddScoped<IOrderRepository, EfOrderRepository>();
+
+            services.AddScoped<OrderService>();
 
             services.AddSingleton<ISubscriptionManager, InMemoryEventBusSubscriptionManager>();
 
@@ -68,23 +68,29 @@ namespace Basket.WebApi
                     sp.GetRequiredService<IServiceScopeFactory>(),
                     sp.GetRequiredService<RmqConnection>(),
                     sp.GetRequiredService<ILogger<RmqEventBus>>(),
-                    "Basket");
+                    "Ordering");
             });
+
+            services.AddScoped<BasketCheckoutEventHandler>();
 
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "Basket.WebApi", Version = "v1" });
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "Ordering.WebApi", Version = "v1" });
             });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            var eventBus = app.ApplicationServices.GetRequiredService<IEventBus>();
+
+            eventBus.Subscribe<BasketCheckoutEvent, BasketCheckoutEventHandler>();
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
                 app.UseSwagger();
-                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Basket.WebApi v1"));
+                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Ordering.WebApi v1"));
             }
 
             app.UseHttpsRedirection();

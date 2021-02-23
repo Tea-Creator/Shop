@@ -1,8 +1,8 @@
-﻿using Basket.Domain.Models;
+﻿using EventBus;
 
-using EventBus;
+using Ordering.Domain.Models;
 
-namespace Basket.Application.Events
+namespace Ordering.Application.IntegrationEvents.Events
 {
     public class BasketCheckoutEvent : IntegrationEvent
     {

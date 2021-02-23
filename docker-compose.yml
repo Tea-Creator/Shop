@@ -2,10 +2,25 @@ version: '3.4'
 
 services:
   event.bus:
-    image: rabbitmq
+    image: rabbitmq:3-management
+
+  ordering.db:
+    image: postgres
+
+  ordering.webapi:
+    image: ${DOCKER_REGISTRY-}orderingwebapi
+    build:
+      context: .
+      dockerfile: src/Ordering/Ordering.WebApi/Dockerfile
 
   basket.db:
     image: redis
+
+  basket.webapi:
+    image: ${DOCKER_REGISTRY-}basketwebapi
+    build:
+      context: .
+      dockerfile: src/Basket/Basket.WebApi/Dockerfile
 
   catalog.db:
     image: ${DOCKER_REGISTRY-}mongo
