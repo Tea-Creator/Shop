@@ -1,3 +1,5 @@
+using Basket.Application.IntegrationEvents.EventHandlers;
+using Basket.Application.IntegrationEvents.Events;
 using Basket.Application.Repositories;
 using Basket.Application.Services;
 using Basket.Infrastructure.Data;
@@ -71,6 +73,8 @@ namespace Basket.WebApi
                     "Basket");
             });
 
+            services.AddScoped<CheckoutSucceedEventHandler>();
+
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Basket.WebApi", Version = "v1" });
@@ -80,6 +84,10 @@ namespace Basket.WebApi
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            var eventBus = app.ApplicationServices.GetRequiredService<IEventBus>();
+
+            eventBus.Subscribe<CheckoutSucceedEvent, CheckoutSucceedEventHandler>();
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();

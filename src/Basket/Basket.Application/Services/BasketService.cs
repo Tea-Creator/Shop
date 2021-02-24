@@ -54,8 +54,6 @@ namespace Basket.Application.Services
             };
 
             _eventBus.Publish(checkoutEvent);
-
-            await _basketRepository.Delete(username);
         }
     }
 }
